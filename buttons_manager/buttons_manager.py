@@ -1,6 +1,4 @@
 from aiogram.types import (
-    Message,
-    CallbackQuery,
     InlineKeyboardMarkup,
     ReplyKeyboardMarkup,
 )
