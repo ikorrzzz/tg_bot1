@@ -11,6 +11,7 @@ class Ad(TypedDict, total=False):
     type: str
     file_id: str
     caption: Optional[str]
+    content: Optional[str]
     likes: int
     liked_by: List[int]
     created_at: str
@@ -39,3 +40,21 @@ def next_ad_id(ads: List[Ad]) -> int:
     if not ads:
         return 1
     return max(ad.get("id", 0) for ad in ads) + 1
+
+
+def format_ad(ad: Ad) -> str:
+    parts = []
+    parts.append(f"ID: {ad['id']}")
+    parts.append(f"Тип: {ad['type']}")
+    if ad["type"] == "text":
+        parts.append(f"Текст: {ad.get('content','')}")
+    elif ad["type"] == "photo":
+        parts.append("Фото: file_id сохранён")
+        if ad.get("caption"):
+            parts.append(f"Описание: {ad['caption']}")
+    elif ad["type"] in ("audio", "voice"):
+        parts.append("Аудио: file_id сохранён")
+        if ad.get("caption"):
+            parts.append(f"Описание: {ad['caption']}")
+    parts.append(f"Лайков: {ad.get('likes', 0)}")
+    return "\n".join(parts)
